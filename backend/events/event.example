@@ -1,0 +1,44 @@
+const Promise = require('bluebird');
+
+/**
+ * Module for handling the IO socket requests.
+ * @module
+ * @param {Object}  io      The IO connection object.
+ * @param {Object}  socket  The socket object.
+ * @param {Object}  app     The application object.
+ * @param {Object}  factory The io log factory.
+ */
+module.exports = function(io, socket, app, factory) {
+  // Get error types
+  const applicationError = app.locals.container.make('error.application');
+  const databaseError = app.locals.container.make('error.database');
+
+  // Get IO logging
+  const ioLog = factory.createLogger(socket);
+
+  // Get the needed controllers
+  const neededController = app.locals.container.make('needed-controller');
+
+  /****************************************************
+  | Using io.emit will respond to ALL connections
+  | Using socket.emit will respond to JUST the sender
+  ****************************************************/
+
+  /**
+   * Event handler for the EXAMPLE_EVENT socket.io event.
+   * @event module:events/production#EXAMPLE_EVENT
+   * @fires EXAMPLE_RESPONSE
+   */
+  socket.on('EXAMPLE_EVENT', data => {
+    const start = new Date().getTime();
+
+    neededController
+      .doSomeStuff(data)
+      .then(result => io.emit('EXAMPLE_RESPONSE', { result: result }))
+      .then(() => ioLog.logEvent('EXAMPLE_EVENT ⇒ EXAMPLE_RESPONSE', start, new Date().getTime()))
+      .catch(error => {
+        app.locals.errorLog.log('error', `${ error.stack }\n`);
+        return socket.emit('EXAMPLE_RESPONSE', { status: 'error', message: error.message });
+      });
+  });
+};

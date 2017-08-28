@@ -1,0 +1,71 @@
+/* eslint no-invalid-this: 0 */
+/* eslint no-underscore-dangle: 0 */
+
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+module.exports = function(db) {
+  const schema = new Schema({
+    name: {
+      type: String,
+      trim: true,
+    },
+
+    is_deleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+  }, {
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
+    },
+  });
+
+  schema.set('toJSON', { virtuals: true });
+  schema.set('toObject', { virtuals: true });
+
+  // THE FOLLOWING CAN NOT BE ARROW FUNCTIONS, CONTEXT ISSUE
+
+  schema.pre('save', function(next) {
+    if(this.isNew) {
+      this.updated_at = new Date();
+      this.created_at = new Date();
+    }
+    else if(this.isModified()) {
+      this.updated_at = new Date();
+    }
+
+    next();
+  });
+
+  schema.pre('findOneAndUpdate', function(next) {
+    if(this.op === 'findOneAndUpdate') {
+      this._update = this._update || {};
+      this._update.updated_at = new Date();
+      this._update.$setOnInsert = this._update.$setOnInsert || {};
+      this._update.$setOnInsert.created_at = new Date();
+    }
+
+    next();
+  });
+
+  schema.pre('update', function(next) {
+    if(this.op === 'update') {
+      this._update = this._update || {};
+      this._update.updated_at = new Date();
+      this._update.$setOnInsert = this._update.$setOnInsert || {};
+      this._update.$setOnInsert.created_at = new Date();
+    }
+
+    next();
+  });
+
+  schema.methods.touch = function(callback) {
+    this.updated_at = new Date();
+    this.save(callback);
+  };
+
+  db.model('Example', schema, 'example');
+};

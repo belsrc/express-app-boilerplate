@@ -1,0 +1,7 @@
+/node_modules/*
+/public/*
+/frontend/views/*
+/frontend/css/*
+*.json
+*.example
+webpack.config.js

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>{% block title %}{% endblock %}</title>
+
+<link href="//cdn.carved.io/img/favicon.ico" rel="icon"/>
+<link href='https://fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet'>
+<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:700" rel="stylesheet">
+<link rel="stylesheet" href="/css/app{{ buster }}.css"/>
+<style>
+  .message { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; }
+  .message_header { font-size: 80px; font-family: 'Source Serif Pro', serif; font-weight: 700; }
+  .message_text { font-size: 48px; font-weight: 100; margin-top: -24px; margin-bottom: 30px; }
+  .message_link {
+    font-size: 20px;
+  }
+  .bold { font-weight: 700; }
+  .light { font-weight: 100; }
+</style>
+</head>
+
+<body>
+  <div class="message">
+    <h1 class="message_header">{% block code %}{% endblock %}</h1>
+    <p class="message_text">{% block message %}{% endblock %}</p>
+    <a href="{% block link %}/{% endblock %}" class="message_link text-info"><span class="bold">Home</span><span class="light">Link</span></a>
+  </div>
+</body>
+
+</html>

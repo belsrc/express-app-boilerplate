@@ -1,0 +1,23 @@
+const BaseRepository = require('./_base');
+
+/**
+ * Example repository class.
+ * @class
+ */
+class ExampleRepository extends BaseRepository {
+  /**
+   * Initializes a new instance of the BaseRepository class.
+   * @param {Object}  model  The needed database model.
+   */
+  constructor(model) {
+    super(model);
+  }
+
+  // Any very specific queries for the pass model or aggregate queries
+}
+
+/**
+ * Gets the {@link ExampleRepository} class.
+ * @module
+ */
+module.exports = ExampleRepository;

@@ -1,0 +1,22 @@
+{
+  "frameOption": "sameorigin",
+
+  "transportSecurity": {
+    "seconds": 31536000,
+    "hasSubdomains": true
+  },
+
+  "contentSecurity": {
+    "defaultSrc": ["self", "https:"],
+    "connectSrc": ["self", "https:"],
+    "scriptSrc": ["self", "https:"],
+    "styleSrc": ["self", "https:"],
+    "fontSrc": ["self", "https:", "data:"],
+    "frameSrc": ["self"],
+    "imgSrc": ["self", "https:", "data:"],
+    "mediaSrc": ["self", "https:"],
+    "objectSrc": ["self"],
+    "report": false,
+    "reflectedXss": "block"
+  }
+}

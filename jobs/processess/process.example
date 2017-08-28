@@ -1,0 +1,32 @@
+const Promise = require('bluebird');
+const moment = require('moment');
+
+const appDir = `${ __dirname}/../..`;
+
+
+/**
+ * The Main method.
+ * @return {Promise}
+ */
+function main() {
+  // Do some stuff
+  // Return some stuff
+}
+
+// Export the main method
+module.exports = function() {
+  return main();
+};
+
+// If the file was NOT required, just execute it normally
+if(!module.parent) {
+  main()
+    .then(results => {
+      console.log(results);
+      process.exit();
+    })
+    .catch(error => {
+      console.error(error.stack);
+      process.exit(1);
+    });
+}

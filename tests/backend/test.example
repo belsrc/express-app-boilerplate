@@ -1,0 +1,64 @@
+'use strict';
+
+/* eslint-disable max-nested-callbacks */
+
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const sinon = require('sinon');
+
+chai.use(chaiAsPromised);
+
+const assert = chai.assert;
+const sandbox = sinon.sandbox.create();
+
+const request = require('request');
+const SomeRepo = require('./../../../database/repositories/some');
+const SomeController = require('./../../../backend/controllers/some');
+const someData = require('./../mock-data/populated/something.json');
+
+let mongoose; // mock this
+let repo;
+let controller;
+let order;
+
+suite('SomeController', () => {
+  /**
+   * Run before each test.
+   */
+  setup(done => {
+    repo = new SomeRepo(mongoose.model('SomeModel'));
+    get = sandbox.stub(request, 'get');
+    controller = new SomeController(repo, request);
+    return done();
+  });
+
+  /**
+   * Run after each test.
+   */
+  teardown(done => {
+    sandbox.restore();
+    return done();
+  });
+
+  /**
+   * controller.some.constructor test suite
+   */
+  suite('constructor', () => {
+    test('should throw for no repo', () =>
+      assert.throws(() => new SomeController(), 'some repository can not be null'));
+
+    test('should throw for no order status repo', () =>
+      assert.throws(() => new SomeController({}), 'request can not be null'));
+  });
+
+  /**
+   * controller.come.getSomeData test suite
+   */
+  suite('getSomeData', () => {
+    test('should resolve', () => {
+      get.yields(null, { statusCode: 200 }, '{}');
+
+      return assert.isFulfilled(controller.getSomeData());
+    });
+  });
+});

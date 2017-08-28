@@ -1,0 +1,22 @@
+module.exports = (agenda, logger) => {
+  console.log('Adding \'process example\'');
+
+  agenda.define('cron example', (job, done) => {
+    const processExample = require('./processes/process.example');
+    const jobStart = new Date().getTime();
+
+    return processExample()
+      .then(() => {
+        const jobEnd = new Date().getTime();
+
+        console.log(`Cron example job completed successfully in ${ (jobEnd - jobStart) } milliseconds on ${ new Date() }.`);
+
+        return done();
+      })
+      .catch(error => {
+        logger.error.log('error', `${ error.stack }\n`);
+
+        return done(error);
+      });
+  });
+};

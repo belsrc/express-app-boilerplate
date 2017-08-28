@@ -1,0 +1,34 @@
+const Promise = require('bluebird');
+const DatabaseError = require(__dirname + '/../errors/database-error');
+const ApplicationError = require(__dirname + '/../errors/application-error');
+
+
+/**
+ * The Example controller class.
+ * @class
+ */
+class ExampleController {
+  /**
+   * Initializes a new instance of the ExampleController.
+   * @param {Object}  neededRepo  The needed repository object.
+   */
+  constructor(neededRepo) {
+    this._neededRepo = neededRepo;
+  }
+
+  /**
+   * Some method.
+   * @return {Object}
+   */
+  someMethod() {
+    const someData = {};
+
+    return someData;
+  }
+}
+
+/**
+ * Gets the {@link ExampleController} class.
+ * @module
+ */
+module.exports = ExampleController;

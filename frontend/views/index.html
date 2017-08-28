@@ -1,0 +1,17 @@
+{% extends './base.html' %}
+
+{% block description %}This is a test{% endblock %}
+
+{% block title %}Test{% endblock %}
+
+{% block content %}
+  <h1>Hello {{ ip }}, I hope you're having a good day!</h1>
+{% endblock %}
+
+{% block bottomscripts %}
+  {% if process.env.NODE_ENV === 'production' %}
+  <script src="/js/main.min{{ buster }}.js"></script>
+  {% else %}
+  <script src="/js/main{{ buster }}.js"></script>
+  {% endif %}
+{% endblock %}
